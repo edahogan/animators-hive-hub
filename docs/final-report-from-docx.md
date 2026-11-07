@@ -212,7 +212,7 @@ The security requirements follow the OWASP Top 10 (OWASP Foundation, 2021): NFR4
 
 Figure 3 is one use case diagram for the whole system. Guest is a visitor who is not signed in, Member is a signed-in animator, and Google is an external actor used only in sign-in. Member is a specialization of Guest, so it inherits the guest use cases. Each oval carries an identifier that matches Appendix B. The notation follows Fowler (2004).
 
-![](#embedded-image)![](#embedded-image)![P0013366_UseCase_Diagram](#embedded-image)Fig 3: Use Case Diagram.
+![](#embedded-image)![](#embedded-image)![P0013366_UseCase_Diagram](final-report-from-docx-images/image-01.png)Fig 3: Use Case Diagram.
 
 Discovery is open to visitors so that work can be found before sign-up. Changes to data are reserved for members. Each Must requirement maps to a use case: FR1 to UC1, FR2 to UC2 and UC15, FR4 to UC5, FR5 to UC4, FR6 to UC6, FR8 to UC8 and FR9 to UC9.
 
@@ -232,7 +232,7 @@ The development hardware is one Linux computer with an x64 processor. The implem
 
 Figure 4 is the initial class diagram, derived from the use cases. It has eight classes, with no attributes or methods, as the module specifies.
 
-![P0013366_Class_Diagram](#embedded-image)Fig 4: Class Diagram.
+![P0013366_Class_Diagram](final-report-from-docx-images/image-02.png)Fig 4: Class Diagram.
 
 Several relationships were unclear. It was not settled whether a community's creator is also a member, or how the optional community association's multiplicities should be fixed against a schema. It was also unclear whether up-votes and comments needed identity of their own. Some classes were missing. There was no session class, because the first build relied on a hosted authentication service; server-side sessions became necessary on D1. Counts of votes, comments and members were absent and were added later for sorting. Media was held as URLs on Animation and User, so it needed no class. Messaging has no class because it was never designed.
 
@@ -250,13 +250,13 @@ The structural model is the completed class diagram in Section 3.2. The behavior
 
 Figure 5 is also the completed class diagram.
 
-![P0013366_Class_Diagram](#embedded-image)Fig 5: Completed Class Diagram.
+![P0013366_Class_Diagram](final-report-from-docx-images/image-03.png)Fig 5: Completed Class Diagram.
 
 I moved from the initial diagram in four steps: I mapped each migration table to a class, checked each association against its foreign key and cascade rule, added the classes and attributes the schema needed, and documented the short column names in the SQL. The schema brought four changes. A session table was added, keyed by the SHA-256 hash of a random cookie value. Counters for up-votes and comments on animations, and for members on communities, were added and recomputed in the same batch as each write. Migration 0003 made membership explicit and backfilled every existing creator as a member, which settled the open question in Section 2.4.3. Deleting a user cascades to everything they own or joined, while deleting a community clears the community reference on its animations.
 
 Below is the ER diagram of the website.
 
-![P0013366_ER_Diagram](#embedded-image)Fig 6: ER diagram.
+![P0013366_ER_Diagram](final-report-from-docx-images/image-04.png)Fig 6: ER diagram.
 
 Figure 6 uses descriptive attribute names, with the table name in each class header. Primary and foreign keys are marked, and the three recomputed counters are labeled as counters. Media is not a class, so it appears only as the video, thumbnail and avatar URL attributes. The community avatar and banner columns exist but are never written. Section 6.3 records these gaps.
 
@@ -266,7 +266,7 @@ Figure 6 uses descriptive attribute names, with the table name in each class hea
 
 Figure 7 shows the upload flow. The file goes first as a raw body to /api/media, which checks the content type and size, stores the file under a random UUID and returns its URL. The metadata then goes as JSON to /api/animations. The server checks the title and description, and confirms that each media URL matches the UUID pattern, so a client cannot point an animation at an arbitrary key. The flow was gathered from UC5, the upload components and the route handlers. If no thumbnail is chosen, the browser captures a still frame and uploads it the same way, and a failure there saves the animation without one.
 
-![P0013366_Sequence_Upload](#embedded-image)Fig 7: Animation Upload Sequence.
+![P0013366_Sequence_Upload](final-report-from-docx-images/image-05.png)Fig 7: Animation Upload Sequence.
 
 A new community, if one is created, is made first and its identifier passed in the metadata request. A missing community reference returns a foreign key error, which the route maps to 404.
 
