@@ -12,5 +12,8 @@
 <div class="flex min-h-screen flex-col bg-background">
 	<Header />
 	<main class="flex-1">{@render children()}</main>
+	<footer class="border-t p-6 text-center text-sm">
+		<a class="underline" href="/about">about and help</a>
+	</footer>
 </div>
 <Toasts />

@@ -574,3 +574,28 @@ export async function delete_user(d: D1Database, id: string) {
 		.map(media_key)
 		.filter((k): k is string => !!k);
 }
+
+export async function list_messages(d: D1Database, community_id: string) {
+	const { results } = await d
+		.prepare(
+			'select msg.i as id, msg.x as content, msg.t, u.n as username from msg join u on u.i = msg.u where msg.c = ? order by msg.t desc limit 100'
+		)
+		.bind(community_id)
+		.all<{ id: string; content: string; t: number; username: string }>();
+	return results.reverse();
+}
+
+export async function insert_message(
+	d: D1Database,
+	community_id: string,
+	user_id: string,
+	content: string
+) {
+	const result = await d
+		.prepare(
+			'insert into msg (i, c, u, x, t) select ?, ?, ?, ?, ? where exists (select 1 from cm where c = ? and u = ?)'
+		)
+		.bind(crypto.randomUUID(), community_id, user_id, content, Date.now(), community_id, user_id)
+		.run();
+	return result.meta.changes > 0;
+}

@@ -6,7 +6,7 @@
 	import { set_joined } from '$lib/data';
 	import { toast } from '$lib/toast.svelte';
 
-	let { data } = $props();
+	let { data, form } = $props();
 	const a = auth();
 	let busy = $state(false);
 
@@ -35,7 +35,10 @@
 			{#if data.c.description}
 				<p class="text-sm text-muted-foreground md:text-base">{data.c.description}</p>
 			{/if}
-			<p class="mt-1 text-sm text-muted-foreground">{data.c.member_count} members</p>
+			<p class="mt-1 text-sm text-muted-foreground">
+				{data.c.member_count}
+				{data.c.member_count === 1 ? 'member' : 'members'}
+			</p>
 			{#if a.user}
 				<button class="btn-outline-sm mt-2" type="button" disabled={busy} onclick={toggle}
 					>{data.c.j ? 'leave' : 'join'}</button
@@ -43,5 +46,29 @@
 			{/if}
 		</div>
 	</div>
+	<section class="card mb-6 p-4" aria-labelledby="messages-heading">
+		<h2 id="messages-heading" class="mb-3 text-xl font-semibold">community messages</h2>
+		{#if data.c.j}
+			{#each data.messages as message (message.id)}
+				<div class="mb-3">
+					<strong>{message.username}</strong>
+					<span class="text-sm text-muted-foreground">{new Date(message.t).toLocaleString()}</span>
+					<p class="whitespace-pre-wrap">{message.content}</p>
+				</div>
+			{:else}<p class="mb-3">No messages yet. Start the conversation.</p>{/each}
+			<form method="POST" action="?/message" class="mt-4">
+				<label for="content" class="block">Your message</label>
+				<textarea
+					id="content"
+					name="content"
+					required
+					maxlength="2000"
+					class="my-2 w-full rounded border p-2"
+				></textarea>
+				{#if form?.message_error}<p role="alert">{form.message_error}</p>{/if}
+				<button class="btn-outline-sm" type="submit">send message</button>
+			</form>
+		{:else}<p>Sign in and join this community to read and send messages.</p>{/if}
+	</section>
 	<DiscoverFeed items={data.a} sort={data.s} community_id={data.c.id} />
 </div>

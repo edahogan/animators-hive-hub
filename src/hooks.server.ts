@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		? event.platform?.env.RL_AUTH
 		: media
 			? event.platform?.env.RL_MEDIA
-			: write && path.startsWith('/api/')
+			: write && (path.startsWith('/api/') || path.startsWith('/c/'))
 				? event.platform?.env.RL_WRITE
 				: null;
 	if (rl) {

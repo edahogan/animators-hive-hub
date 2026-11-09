@@ -21,7 +21,10 @@
 					<Avatar src={c.avatar_url} name={c.display_name} class="h-12 w-12" />
 					<div>
 						<h2 class="text-lg font-semibold">{c.display_name}</h2>
-						<p class="text-sm text-muted-foreground">{c.member_count || 0} members</p>
+						<p class="text-sm text-muted-foreground">
+							{c.member_count || 0}
+							{c.member_count === 1 ? 'member' : 'members'}
+						</p>
 					</div>
 				</div>
 				<p class="line-clamp-2 text-sm text-muted-foreground">{c.description}</p>
