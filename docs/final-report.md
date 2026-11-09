@@ -12,7 +12,7 @@ AfriHUB
 
 ## Abstract
 
-This report describes Animators Hive Hub, a web application that lets animators publish short animations and lets other people find, watch, upvote and comment on them. The scope covers account creation and sign-in with email or Google, an upload flow for video and thumbnails, a discover feed with sorting and search, animation pages, public and private profiles, playlists and communities. The work followed an iterative approach. A first build in June 2025 was a React single-page application on Supabase. After a long pause, the system was rebuilt from September 2026 as a SvelteKit application on Cloudflare Workers, with records in a D1 database and media in R2 storage. The analysis, design, implementation and testing are documented, together with project, risk and configuration management. Most functional aims were met, and the application is deployed. Community messaging, which the proposal listed, was not built. Of 83 black-box test cases, 80 passed, one failed and two could not be run.
+This report describes Animators Hive Hub, a web application that lets animators publish short animations and lets other people find, watch, upvote and comment on them. The scope covers account creation and sign-in with email or Google, an upload flow for video and thumbnails, a discover feed with sorting and search, animation pages, public and private profiles, playlists and communities. The work followed an iterative approach. A first build in June 2025 was a React single-page application on Supabase. After a long pause, the system was rebuilt from September 2026 as a SvelteKit application on Cloudflare Workers, with records in a D1 database and media in R2 storage. The analysis, design, implementation and testing are documented, together with project, risk and configuration management. Most functional aims were met, and the application is deployed. Community messaging was added in November 2026; community members can read and send messages. Of 83 black-box test cases, 80 passed, one failed and two could not be run.
 
 ## Contents
 
@@ -140,7 +140,7 @@ Animators publish their work on general platforms such as YouTube, Instagram and
 
 A visitor who is not signed in can open the landing page, animation pages, public profiles and the communities list. A signed-in member can upload an animation with a video, an optional thumbnail, a title, a description and an optional community. Members browse a feed sorted by newest or most upvoted and searched by title and description. They upvote, comment, keep playlists, create and join communities, and edit their profiles. Owners can edit and delete their animations, and authors can delete their comments.
 
-The proposal listed a feature to send a message to a community. It was not built. Discussion takes place through comments. There is no moderation, reporting, password reset or email verification, because the system sends no email.
+The proposal listed a feature to send a message to a community. This was added in November 2026: members can read and send messages in their community. There is no moderation, reporting, password reset or email verification, because the system sends no email.
 
 ### 1.2 Justification for the method
 
@@ -267,11 +267,11 @@ Figure 4 is the initial class diagram, derived from the use cases. It has eight 
 
 *Figure 4: Initial class diagram*
 
-Several relationships were unclear. It was not settled whether a community's creator is also a member, or how the optional community association's multiplicities should be fixed against a schema. It was also unclear whether upvotes and comments needed identity of their own. Some classes were missing. There was no session class, because the first build relied on a hosted authentication service; server-side sessions became necessary on D1. Counts of votes, comments and members were absent and were added later for sorting. Media was held as URLs on Animation and User, so it needed no class. Messaging has no class because it was never designed.
+Several relationships were unclear. It was not settled whether a community's creator is also a member, or how the optional community association's multiplicities should be fixed against a schema. It was also unclear whether upvotes and comments needed identity of their own. Some classes were missing. There was no session class, because the first build relied on a hosted authentication service; server-side sessions became necessary on D1. Counts of votes, comments and members were absent and were added later for sorting. Media was held as URLs on Animation and User, so it needed no class. The initial class diagram did not include messaging; a community message table was added in November 2026.
 
 ### 2.5 Conclusion
 
-The analysis gave 14 functional requirements with MoSCoW priorities, ten system-wide requirements with measurable targets, one use case diagram and an initial class diagram. Three questions were left open: whether the creator is a member, the multiplicities of the community association, and the place of sessions, which the analysis had not considered. Chapter 3 answers the first two and adds the third. Community messaging was classed as Could and was not built.
+The analysis gave 14 functional requirements with MoSCoW priorities, ten system-wide requirements with measurable targets, one use case diagram and an initial class diagram. Three questions were left open: whether the creator is a member, the multiplicities of the community association, and the place of sessions, which the analysis had not considered. Chapter 3 answers the first two and adds the third. Community messaging was initially classed as Could and was added in November 2026.
 
 ## 3 Design
 
@@ -375,7 +375,7 @@ No data from the 2025 prototype was migrated. Its Supabase project no longer res
 
 ### 4.5 Training
 
-The users are members, who upload and discuss, and visitors, who browse. The author is the only operator and learned the system by building it. No classroom or live training was given, and no external users were recruited, so there is no evidence of training outcomes. The guide in Appendix E has a section for each screen, with a screenshot and steps that use the interface's labels. Members can read it before first use. The application has no help subsystem, so the guide is the only help, a weakness recorded in Section 6.3.
+The users are members, who upload and discuss, and visitors, who browse. The author is the only operator and learned the system by building it. No classroom or live training was given, and no external users were recruited, so there is no evidence of training outcomes. The guide in Appendix E has a section for each screen, with a screenshot and steps that use the interface's labels. Members can read it before first use. An About and Help page was added in November 2026.
 
 ### 4.6 Conclusion
 
@@ -408,7 +408,7 @@ I managed risk in four steps: identify, analyse by likelihood and impact, plan c
 |---|---|---|---|---|---|---|
 | A hosted dependency becomes unavailable (Supabase; Google sign-in) | Contractual and environmental | Medium | High | Schema and rules kept in the repository | Rebuild the data layer on D1 | Supabase no longer resolves; nothing migrated. Google sign-in not seen to fail |
 | Work stops for a long period | Management and process | Medium | High | Repository kept deployable; plans kept in the repository | Restart from repository and proposal | Happened: no commits from 16 June 2025 to 25 September 2026 |
-| Scope grows beyond what can be finished | Management and process | High | Medium | MoSCoW priorities; Won't list; scope decisions in plans | Defer or drop items | Partly happened: vector search tried and removed; messaging not built |
+| Scope grows beyond what can be finished | Management and process | High | Medium | MoSCoW priorities; Won't list; scope decisions in plans | Defer or drop items | Partly happened: vector search tried and removed; messaging added in November 2026 |
 | Checks fail unnoticed | Management and process | Medium | Medium | Gate command before each step is marked done | Fix the application, not the check | Lint was red before the critical plan; later made to pass |
 | The author cannot work for a period | Personnel | Medium | High | Small commits; plans that record progress | Reduce scope to Must requirements | No effect recorded |
 | A session secret is exposed | Technical | Medium | High | Secrets kept out of the repository | Rotate; fail closed; move sessions to the database | Happened: secret in plan notes, removed 7 October 2026 |
@@ -478,19 +478,19 @@ Animators Hive Hub is a deployed web application for sharing animation. Members 
 | O5 Playlists and communities with member counts | Met | Unit tests 6 and 7 passed 17 of 17 |
 | O6 Rate limits, validation and 403 for other people's content | Partly met | Suite 1.2 passed 6 of 7; validation and 403 checks passed; the authentication limit did not always refuse the 31st request (case 1.2.1) |
 | O7 Deployed at a public URL from main | Met | Deployment recorded complete in plan/next.log on 7 October 2026; not re-checked |
-| Proposal feature: send a message to a community | Not met | No messaging code; comments are the only discussion channel |
+| Proposal feature: send a message to a community | Met | Members can send and read community messages |
 
-Six objectives are met with passing tests and one is partly met, because the authentication rate limit is approximate. Community messaging was not built, so the aim of connecting animators directly was met only in part, through the feed, profiles and communities.
+Six objectives are met with passing tests and one is partly met, because the authentication rate limit is approximate. Community messaging was added in November 2026, extending direct discussion beyond animation comments.
 
 ### 6.3 Evaluation of the work
 
 The core flows work end to end, from sign-up through upload to comment. Passwords are hashed with PBKDF2, sessions can be ended on the server, rate limits sit in one place, and ownership is checked before each change. These decisions are appropriate for a system of this size, though no independent review was made. The plans and commits make the reasons for decisions traceable.
 
-The limitations are as follows. Community messaging was not built, and there is no password reset or email verification. Replaced avatar files are not deleted from R2, and uploads never attached to an animation are never deleted. Deleting a user does not recount the upvotes and comments on other people's animations that the user affected. The community avatar and banner columns are never written. The video input accepts only mp4, webm and quicktime, while the server accepts any video type. The smoke script's forged-cookie check uses an HMAC construction the current code does not use, so it passes for a different reason from the one it describes. There are no automated unit tests; the Appendix D scripts were run by hand and by script. The authentication rate limit is approximate (case 1.2.1). The video player renders an empty caption track, because no caption file exists. The application has no help subsystem. Google sign-in to an address with a password account signs into that account, as described in Section 3.3.2.
+The limitations are as follows. Community messaging was added in November 2026. There is no password reset or email verification. Replaced avatar files are not deleted from R2, and uploads never attached to an animation are never deleted. Deleting a user does not recount the upvotes and comments on other people's animations that the user affected. The community avatar and banner columns are never written. The video input accepts only mp4, webm and quicktime, while the server accepts any video type. The smoke script's forged-cookie check uses an HMAC construction the current code does not use, so it passes for a different reason from the one it describes. There are no automated unit tests; the Appendix D scripts were run by hand and by script. The authentication rate limit is approximate (case 1.2.1). The video player renders an empty caption track, because no caption file exists. An About and Help page was added in November 2026. Google sign-in to an address with a password account signs into that account, as described in Section 3.3.2.
 
 ### 6.4 Future development
 
-The next step is to run the Appendix D scripts, record the results, and add a unit test runner. Community messaging is the most important missing feature, since it is the one proposal feature that serves the aim of connecting animators. Password reset and email verification would follow once an email provider is chosen, and reporting and moderation would be needed before a wider launch. For the code, the priorities are removing orphaned R2 objects, recounting counters on user deletion, adding captions for uploaded videos, and adding an in-application help section.
+The next step is to run the Appendix D scripts, record the results, and add a unit test runner. Community messaging was added in November 2026. Password reset and email verification would follow once an email provider is chosen, and reporting and moderation would be needed before a wider launch. For the code, the priorities are removing orphaned R2 objects, recounting counters on user deletion, adding captions for uploaded videos, and adding an in-application help section.
 
 ### 6.5 Final reflection
 
@@ -549,7 +549,7 @@ The catalogue gives one entry for each functional requirement (FR) and each syst
 | FR11 | Communities | A member browses, searches, creates, joins and leaves communities. Joining and leaving updates the member count. | Should | Proposal function list | Unit test 7, cases 7.1 to 7.8 |
 | FR12 | Profiles | Public profiles show a member's details and animations without an email address. A member edits their own profile and avatar. | Should | Proposal function list; analysis | Unit test 8, cases 8.1 to 8.8 |
 | FR13 | Password and account | A member changes the password, which ends other sessions, and deletes the account after typing the username. | Should | Analysis | Unit test 2, case 2.8; integration case 1.2.6 |
-| FR14 | Community messaging | Members send a message to a community. | Could | Proposal function list | Not delivered; Section 6.2 |
+| FR14 | Community messaging | Members send a message to a community. | Could | Proposal function list | Delivered in November 2026; see the update appendix. |
 | NFR1 | Password storage | Passwords are stored as PBKDF2-SHA256 hashes with 80,000 iterations and a random salt. | Must | OWASP (2021); src/lib/server/session.ts | Integration case 1.2.6 |
 | NFR2 | Session handling | Session tokens are random, stored as SHA-256 hashes, and valid for 30 days. Sign-out, password change and deletion end sessions. | Must | OWASP (2021); src/lib/server/session.ts | Unit test 2, cases 2.6 to 2.8; integration case 1.2.7 |
 | NFR3 | Rate limits | Limits of 30 authentication requests, 120 writes and 30 uploads per minute, with HTTP 429 when exceeded. | Must | src/hooks.server.ts; wrangler.jsonc | Integration case 1.2.1 to 1.2.3 |
@@ -1140,3 +1140,34 @@ animators-hive-hub/
 | tests/core.e2e.ts | Three browser tests for landing, sign-in focus, and sign-up with upload |
 | tests/mobile.e2e.ts | Phone-width layout test |
 | package.json | Scripts and dependency ranges |
+
+
+## November 2026 update
+
+Community messaging, the About and Help page, footer and singular member counts are live. Eight credited CC0 animations replaced nine dummy SVG entries. The 2D, 3D and Stop Motion communities contain posts; their member counts include test accounts and do not demonstrate an active community. Members can read and send messages after joining. Messages are stored in D1, limited to 2,000 characters and checked for membership on insertion.
+
+On 9 November 2026, desktop browser checks covered sign-up, upload, upvote, comment, playlists, joining and messaging. A 375 × 812 phone viewport was used for sign-up, sign-in, upload, upvote, comment, adding to a playlist, joining and messaging. This was not a physical phone test. Test uploads were deleted after screenshots. The build and Svelte type check passed with one existing Modal.svelte accessibility warning. Earlier tests retain their original dates.
+
+![Live discover feed](report-img/discover-new.png)
+
+![Communities and member counts](report-img/communities-new.png)
+
+![Community messaging](report-img/messaging-new.png)
+
+![Desktop upload](report-img/upload-new.png)
+
+![Desktop upvote and comment](report-img/comment-new.png)
+
+![Playlist creation](report-img/playlist-new.png)
+
+![About and Help](report-img/about-new.png)
+
+![Phone viewport sign-up](report-img/mobile-signup-new.png)
+
+![Phone viewport sign-in](report-img/mobile-signin-new.png)
+
+![Phone viewport upload](report-img/mobile-upload-new.png)
+
+![Phone viewport upvote and comment](report-img/mobile-comment-new.png)
+
+![Phone viewport join and message](report-img/mobile-join-new.png)
