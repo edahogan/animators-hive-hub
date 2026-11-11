@@ -8,7 +8,7 @@ The website included everything users really need, but there are things that wou
 
 **2. You didn't get to ask any animators what they wanted. Do you think that changed what you built?**
 
-It didn't. Nonetheless, I wish I did, so that it could stand out more from other websites with the objectives what I built has.
+What I built did not change because I didn't ask animators what they wanted.
 
 **3. In your proposal you said users could report bad content and an admin could remove it. That wasn't built. What happened?**
 
@@ -18,11 +18,11 @@ I forgot to add that feature.
 
 **4. You moved from React and Supabase to SvelteKit and Cloudflare. Why did you switch? Are you glad you did?**
 
-SvelteKit is faster than React. Cloufare would make running the website faster, compared to using Supabase, while hosting it. I don't think Supabase has semantic search either, for looking up things on the website easier.
+I am glad I did. SvelteKit is faster than React. Cloudflare would make running the website faster because the app and database can be on the same place, reducing latency. Another reason for using Cloudflare for the database instead of Supabase is that Supabase does not have semantic search. 
 
 **5. Which part of your design are you least happy with? Why?**
 
-None. I just wish I did more for it.
+I am unhappy with the windows for uploading the animations from users. I am because it doesn't have a checker to see whether the videos are made with A.I.
 
 **6. If you started again tomorrow, what would you design differently?**
 
