@@ -76,7 +76,7 @@ I learned that proper time management requires realistic planning and early buff
 
 **17. Which skill do you feel you improved the most?**
 
-The skill I feel I improved the most was mine report writing, especially with my choice of words.
+The skill I feel I improved the most was my report writing, especially with my choice of words.
 
 **18. Name three things you'll do differently in your next project.**
 
