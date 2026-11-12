@@ -32,39 +32,39 @@ I would design the animation upload functionality to have a checker to scan for 
 
 **7. Which feature gave you the most trouble to build? What made it hard?**
 
-The feature that gave me the most trouble to build was video uploading section. This is because I wasn't dealing with relational databases only. I had to work with big data types too.
+The feature that gave me the most trouble to build was video uploading section. This is because I wasn't dealing with relational databases only. I had to work with binary data type.
 
 **8. One test didn't pass: the website didn't always block someone after 30 sign-in attempts. Why might that matter?**
 
-That will matter because at this stage a level of security will not be in place, especially when it identifies the user is making sign-ins as an intruder.
+Yes, I noticed that a user isn't blocked after several attemptsThat will matter because at this stage a level of security will not be in place to prevent brute-force attacks
 
 **9. Do you feel you tested your website enough? What else would you test?**
 
-Yes, I feel I have tested the website enough.
+No, I don't feel I've tested the website enough. I need to run tests again for the 30 sign-in attempts on the sign-in page before it blocks out someone. This is so that I can fix the bug there.
 
 ## About your plan and time
 
 **10. Your plan was to work from May to September, but you started in late September. What held you back?**
 
-The work was started months before late September. I had to go through it again because I didn't do it properly.
+The work was started months before late September. I had to go through it again because I didn't write my report and proposal with the correct guidelines.
 
 **11. How did starting late affect your project?**
 
-I didn't start late. I just completed the work properly then. It didn't affect my project, nonetheless.
+Starting late affected the web-development aspect of the project because while developing the website with a short time frame I did not properly implement or test the account- lock-out mechanism. 
 
 **12. While working, did you check how you were doing against your plan? Why or why not?**
 
-I checked how I was doing against my plan. I did that because I couldn't guarrantee completing the goals of my project if I didn't.
+I checked how I was doing against my plan. I used the project guide because I couldn't guarrantee completing the goals of my project if I didn't.
 
 ## About what you learned
 
 **13. In your own words, what did you set out to do, and what did you end up with?**
 
-I set out to create a website to promote animators, so that A.I animations won't overshadow their work. What I ended up with was a website with that objective, but an interface for users to chat with and an A.I checker for animated videos missing.
+I set out to create a website to promote animators, so that A.I animations won't overshadow their work. What I ended up with was a website that satisfies that objective, but it's missing direct-messaging for users and an A.I checker for videos.
 
 **14. What was the hardest moment for you during the project?**
 
-Following the key objective of the website for the project while creating it.
+The hardest moment for me during the project was following the key objective of the website for the project while creating it.
 
 **15. Your first version and its data were lost. What did that teach you?**
 
@@ -72,16 +72,16 @@ It taught me to back-up my work more often and be more responsible for it.
 
 **16. What did you learn about planning and managing your time?**
 
-I learnt that time is always free to use for anything. The more you work with your time, the more you are alone. As you are in solitude, your maturity grows to create massive things within any timeframe.
+I learned that proper time management requires realistic planning and early buffer periods, especially for testing and debugging. I realized that rushing early phases or having to redo code eats up valuable time, which directly impacts the quality and thoroughness of the final product.
 
 **17. Which skill do you feel you improved the most?**
 
-My skill for writing.
+The skill I feel I improved the most was mine report writing, especially with my choice of words.
 
 **18. Name three things you'll do differently in your next project.**
 
 The three things I will do differently in my next project are:
 
-1. Make a survey of what people would want in my website.
-2. Focus more on accomplishing key goals of the project.
-3. Make the porject more interact with people I intend to use it.
+1. Conduct user research of what people would want in my website, so that I will add more functional features like the A.I checker for videos.
+2. I will improve my time management, so that I don't rush through important parts of the project, thus leaving them incomplete.
+3. Make the project more interactive for my target audience. For example, one way I could've achieved it in this particular project is with a direct messaging interface.
